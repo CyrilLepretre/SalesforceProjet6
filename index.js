@@ -57,9 +57,18 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					searchResultsHtml += (response.items[i].volumeInfo.authors && response.items[i].volumeInfo.authors[0]) ? 
 						"<span>Auteur : " + response.items[i].volumeInfo.authors[0] + "</span><br/>" : 
 						"<span>Auteur : Information manquante</span><br />";
-					searchResultsHtml += (response.items[i].volumeInfo.description) ? 
+					let descriptionHtml;
+					if (response.items[i].volumeInfo.description){
+						descriptionHtml = (response.items[i].volumeInfo.description.length < 200) ? 
+							"<span>Description : "+response.items[i].volumeInfo.description+"</span><br />"  :
+							"<span>Description : "+response.items[i].volumeInfo.description.substring(0, maxDescriptionSize)+"...</span><br />"
+					} else {
+						descriptionHtml = "<span>Description : Information manquante</span><br />";
+					}
+					searchResultsHtml += descriptionHtml;
+					/*searchResultsHtml += (response.items[i].volumeInfo.description) ? 
 						"<span>Description : "+response.items[i].volumeInfo.description.substring(0, maxDescriptionSize)+"</span><br />" :
-						"<span>Description : Information manquante</span><br />";
+						"<span>Description : Information manquante</span><br />";*/
 					
 					searchResultsHtml += "<br />";
 				}

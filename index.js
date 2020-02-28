@@ -2,6 +2,9 @@ var bookTitle = '';
 var bookAuthor = '';
 var searchResultsHtml;
 const maxDescriptionSize = 199; // +1 for string[0]
+// title replaced by logo
+document.getElementsByClassName("title")[0].innerHTML = "<div id=\"logo\"><img class=\"logo\" src=\"/img/logo.png\" alt=\"Logo\" srcset=\"/img/logo.svg\" /></div>";
+
 const newBookTitle = document.querySelector("#myBooks h2.h2");
 //newBookTitle.innerHTML = "<h2 class=\"h2\">Nouveau Livre</h2><button id=\"buttonAddABook\"type=\"button\">Ajouter un livre</button>";
 
@@ -19,7 +22,7 @@ buttonAddABook.addEventListener('click', function(event) {
 
 openFormAddBook = () => {
 	//elementAddBook.classList.remove("h2");
-	elementAddBook.innerHTML = '<div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div><div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div><div><button id=\"buttonSearchBook\"type=\"button\">Rechercher</button></div><div><button id=\"buttonCancelSearchBook\"type=\"button\">Annuler</button></div>';
+	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div><div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div><div><button id=\"buttonSearchBook\"type=\"button\">Rechercher</button></div><div><button id=\"buttonCancelSearchBook\"type=\"button\">Annuler</button></div>';
 	// get Title entered by user
 	const bookTitleInput = document.getElementById('bookTitle');
 	bookTitleInput.addEventListener('input', function(e) {

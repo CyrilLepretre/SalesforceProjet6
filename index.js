@@ -5,13 +5,13 @@ const maxDescriptionSize = 199; // +1 for string[0]
 // title replaced by logo
 document.getElementsByClassName("title")[0].innerHTML = "<div id=\"logo\"><img class=\"logo\" src=\"/img/logo.png\" alt=\"Logo\" srcset=\"/img/logo.svg\" /></div>";
 
-const newBookTitle = document.querySelector("#myBooks h2.h2");
-//newBookTitle.innerHTML = "<h2 class=\"h2\">Nouveau Livre</h2><button id=\"buttonAddABook\"type=\"button\">Ajouter un livre</button>";
+// Replace h2 class by h2 id to not inherit it to children that will be created
+document.getElementsByClassName("h2")[0].innerHTML = "<h2 id=\"h2\">Nouveau Livre</h2>";
 
-//const elementAddBook = document.createElement("<div><button id=\"buttonAddABook\"type=\"button\">Ajouter un livre</button></div>");
+const newBookTitle = document.querySelector("#myBooks h2");
 const elementAddBook = document.createElement("div");
 newBookTitle.appendChild(elementAddBook);
-elementAddBook.innerHTML = "<div><button id=\"buttonAddABook\"type=\"button\">Ajouter un livre</button></div>";
+elementAddBook.innerHTML = "<div><button id=\"buttonAddABook\"type=\"button\"><i class=\"fas fa-plus-circle\"></i> Ajouter un livre</button></div>";
 
 const pochList = document.querySelector("#content h2");
 
@@ -22,7 +22,10 @@ buttonAddABook.addEventListener('click', function(event) {
 
 openFormAddBook = () => {
 	//elementAddBook.classList.remove("h2");
-	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div><div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div><div><button id=\"buttonSearchBook\"type=\"button\">Rechercher</button></div><div><button id=\"buttonCancelSearchBook\"type=\"button\">Annuler</button></div>';
+	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div>'
+		+ '<div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div>'
+		+ '<div><button id=\"buttonSearchBook\"type=\"button\">Rechercher</button></div>'
+		+ '<div><button id=\"buttonCancelSearchBook\"type=\"button\">Annuler</button></div>';
 	// get Title entered by user
 	const bookTitleInput = document.getElementById('bookTitle');
 	bookTitleInput.addEventListener('input', function(e) {

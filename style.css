@@ -39,6 +39,46 @@ body {
 	color: white;
 }
 
+#buttonSearchBook {
+	cursor: pointer;
+	width: 150px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-radius: 10rem;
+	border: 0px;
+	padding: 10px 20px;
+	background-color: #a1ebe1;
+	color: #37a898;
+	font-family: 'Spartan', arial;
+	font-size: small;
+	transition-duration: 600ms;
+}
+
+#buttonSearchBook:hover {
+	background-color: #37a898;
+	color: white;
+}
+
+#buttonCancelSearchBook {
+	cursor: pointer;
+	width: 150px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-radius: 10rem;
+	border: 0px;
+	padding: 10px 20px;
+	background-color: #e9a339;
+	color: black;
+	font-family: 'Spartan', arial;
+	font-size: small;
+	transition-duration: 600ms;
+}
+
+#buttonCancelSearchBook:hover {
+	background-color: #e67c03;
+	color: white;
+}
+
 /*.title {
 	margin-left: 10px;
 	margin-right: 10px;

@@ -24,8 +24,8 @@ openFormAddBook = () => {
 	//elementAddBook.classList.remove("h2");
 	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div>'
 		+ '<div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div>'
-		+ '<div><button id=\"buttonSearchBook\"type=\"button\">Rechercher</button></div>'
-		+ '<div><button id=\"buttonCancelSearchBook\"type=\"button\">Annuler</button></div>';
+		+ '<div><button id=\"buttonSearchBook\"type=\"button\"><i class="fas fa-search"></i> Rechercher</button></div>'
+		+ '<div><button id=\"buttonCancelSearchBook\"type=\"button\"><i class="fas fa-times"></i> Annuler</button></div>';
 	// get Title entered by user
 	const bookTitleInput = document.getElementById('bookTitle');
 	bookTitleInput.addEventListener('input', function(e) {

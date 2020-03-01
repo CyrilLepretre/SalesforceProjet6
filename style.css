@@ -79,6 +79,14 @@ body {
 	color: white;
 }
 
+#searchResults {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 90%;
+	justify-content: space-around;
+}
+
 /*.title {
 	margin-left: 10px;
 	margin-right: 10px;
@@ -93,4 +101,43 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	width: 200px;
+}
+
+.bookCard {
+	width: 300px;
+	height: 400px;
+	margin: 10px 5px 10px 5px;
+	padding: 10px 5px 10px 5px;
+	/*border-style: solid;
+	border-width: medium;
+	border-color: #37a898;*/
+	border-radius: 10px;
+	background-color: #a1ebe1;
+	font-size: xxx-small;
+	text-align: left;
+}
+
+.bookTitle {
+	font-weight: bold;
+}
+
+.bookId {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.bookAuthor {
+	font-weight: normal;
+}
+
+.bookDescription {
+	font-weight: normal;
+}
+
+.thumbnailImg {
+	max-height: 140px;
+}
+
+.thumbnail{
+	text-align: center;
 }

@@ -50,32 +50,17 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		request.onreadystatechange = function() {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				var response = JSON.parse(this.responseText);
-				//console.log(response);
-				searchResultsHtml = '';
-				for (let i=0; i<response.items.length; i++) {
-					searchResultsHtml += "<span>Titre:" + response.items[i].volumeInfo.title + "</span><br/>";
-					searchResultsHtml += (response.items[i].id) ? 
-						"<span>Id : "+response.items[i].id+"</span><br />" : 
-						"<span>Id : Information manquante</span><br />";
-					searchResultsHtml += (response.items[i].volumeInfo.authors && response.items[i].volumeInfo.authors[0]) ? 
-						"<span>Auteur : " + response.items[i].volumeInfo.authors[0] + "</span><br/>" : 
-						"<span>Auteur : Information manquante</span><br />";
-					let descriptionHtml;
-					if (response.items[i].volumeInfo.description){
-						descriptionHtml = (response.items[i].volumeInfo.description.length < 200) ? 
-							"<span>Description : "+response.items[i].volumeInfo.description+"</span><br />"  :
-							"<span>Description : "+response.items[i].volumeInfo.description.substring(0, maxDescriptionSize)+"...</span><br />"
-					} else {
-						descriptionHtml = "<span>Description : Information manquante</span><br />";
-					}
-					searchResultsHtml += descriptionHtml;
-					/*searchResultsHtml += (response.items[i].volumeInfo.description) ? 
-						"<span>Description : "+response.items[i].volumeInfo.description.substring(0, maxDescriptionSize)+"</span><br />" :
-						"<span>Description : Information manquante</span><br />";*/
-					
-					searchResultsHtml += "<br />";
-				}
+
+				const searchResultsHtml = '<h2>Résultats de recherche</h2><div id="searchResults"></div>';
 				pochList.innerHTML = searchResultsHtml;
+
+				const searchResultsZone = document.getElementById('searchResults');
+				for (let i=0; i<response.items.length; i++) {
+					const elementBookCard = document.createElement('div');
+					searchResultsZone.appendChild(elementBookCard);
+					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);
+				}
+				
 			}
 		};
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
@@ -88,4 +73,36 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 function isValidInput(bookTitle, bookAuthor) {
 	result = ((bookTitle == '') && (bookAuthor == '')) ? false : true;
 	return result;
+}
+
+function createHtmlBookCard(responseItem) {
+	htmlBookCard = '<div class="bookCard">';
+	htmlBookCard += '<span class="bookTitle">Titre:' + responseItem.volumeInfo.title + '</span><br/><br/>';
+	htmlBookCard += (responseItem.id) ? 
+		'<span class="bookId">Id : '+responseItem.id+'</span><br /><br/>' : 
+		'<span class="bookId">Id : Information manquante</span><br /><br/>';
+		htmlBookCard += (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
+		'<span class="bookAuthor">Auteur : ' + responseItem.volumeInfo.authors[0] + '</span><br/><br/>' : 
+		'<span class="bookAuthor">Auteur : Information manquante</span><br /><br/>';
+	let descriptionHtml;
+	if (responseItem.volumeInfo.description){
+		descriptionHtml = (responseItem.volumeInfo.description.length < 200) ? 
+			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description+'</span><br /><br />'  :
+			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description.substring(0, maxDescriptionSize)+'...</span><br /><br />';
+	} else {
+		descriptionHtml = '<span class="bookDescription">Description : Information manquante</span><br /><br />';
+	}
+	htmlBookCard += descriptionHtml;
+	// ImageLink
+	htmlBookCard += '<div class="thumbnail"><img class="thumbnailImg" src=';
+	htmlBookCard += responseItem.volumeInfo.imageLinks ? 
+		(responseItem.volumeInfo.imageLinks.thumbnail ? responseItem.volumeInfo.imageLinks.thumbnail : '"/img/unavailable.png"') :'"/img/unavailable.png"';
+	htmlBookCard += '></div>';
+	/*if (responseItem.volumeInfo.imageLinks){
+		if (responseItem.volumeInfo.imageLinks.thumbnail){
+			
+		}
+	}*/
+	htmlBookCard += '</div>';
+	return htmlBookCard;
 }

@@ -22,8 +22,8 @@ buttonAddABook.addEventListener('click', function(event) {
 
 openFormAddBook = () => {
 	//elementAddBook.classList.remove("h2");
-	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle" placeholder="Titre" /></div>'
-		+ '<div>Auteur</div><div><input type="text" id="bookAuthor" placeholder="Auteur"/></div>'
+	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle"/></div>'
+		+ '<div>Auteur</div><div><input type="text" id="bookAuthor"/></div>'
 		+ '<div><button id=\"buttonSearchBook\"type=\"button\"><i class="fas fa-search"></i> Rechercher</button></div>'
 		+ '<div><button id=\"buttonCancelSearchBook\"type=\"button\"><i class="fas fa-times"></i> Annuler</button></div>';
 	// get Title entered by user
@@ -77,7 +77,7 @@ function isValidInput(bookTitle, bookAuthor) {
 
 function createHtmlBookCard(responseItem) {
 	htmlBookCard = '<div class="bookCard">';
-	htmlBookCard += '<span class="bookTitle">Titre:' + responseItem.volumeInfo.title + '</span><br/><br/>';
+	htmlBookCard += '<span class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</span><br/><hr class="hrCard"><br/>';
 	htmlBookCard += (responseItem.id) ? 
 		'<span class="bookId">Id : '+responseItem.id+'</span><br /><br/>' : 
 		'<span class="bookId">Id : Information manquante</span><br /><br/>';

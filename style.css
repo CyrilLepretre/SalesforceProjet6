@@ -3,6 +3,24 @@ body {
 	font-size: xx-small;
 }
 
+input {
+	width: 40%;
+	border-radius: 10rem;
+	padding: 10px 20px;
+	outline: none;
+	border: 2px solid #eafaf8;
+	font-family: 'Spartan', arial;
+	font-size: xxx-small;
+}
+
+input:focus {
+	width: 40%;
+	border-radius: 10rem;
+	padding: 10px 20px;
+	outline: none;
+	border: 2px solid #a1ebe1;
+}
+
 #h2 {
 	font-family: 'Spartan', arial;
 	font-size: large;
@@ -32,6 +50,7 @@ body {
 	font-family: 'Spartan', arial;
 	font-size: small;
 	transition-duration: 600ms;
+	outline: none;
 }
 
 #buttonAddABook:hover {
@@ -52,6 +71,7 @@ body {
 	font-family: 'Spartan', arial;
 	font-size: small;
 	transition-duration: 600ms;
+	outline: none;
 }
 
 #buttonSearchBook:hover {
@@ -72,6 +92,7 @@ body {
 	font-family: 'Spartan', arial;
 	font-size: small;
 	transition-duration: 600ms;
+	outline: none;
 }
 
 #buttonCancelSearchBook:hover {
@@ -83,18 +104,9 @@ body {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	width: 90%;
+	width: 100%;
 	justify-content: space-around;
 }
-
-/*.title {
-	margin-left: 10px;
-	margin-right: 10px;
-	font-family: 'Spartan', arial;
-	font-size: x-large;
-	color: #37a898;
-	background-color: #e8f9f7;
-}*/
 
 .logo {
 	display: block;
@@ -112,32 +124,44 @@ body {
 	border-width: medium;
 	border-color: #37a898;*/
 	border-radius: 10px;
-	background-color: #a1ebe1;
+	/*background-color: #d0fcf6;*/
+	background-color: rgb(9, 175, 159);
 	font-size: xxx-small;
 	text-align: left;
 }
 
 .bookTitle {
 	font-weight: bold;
+	color: white;
 }
 
 .bookId {
 	font-weight: bold;
 	font-style: italic;
+	color: white;
 }
 
 .bookAuthor {
 	font-weight: normal;
+	color: white;
 }
 
 .bookDescription {
 	font-weight: normal;
+	color: white;
 }
 
 .thumbnailImg {
 	max-height: 140px;
 }
 
-.thumbnail{
+.thumbnail {
 	text-align: center;
+}
+
+hr.hrCard {
+	/*border-color : white;*/
+	background-color: white;
+	height: 1px;
+	border: 0;
 }

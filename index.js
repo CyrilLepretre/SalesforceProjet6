@@ -60,7 +60,13 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					searchResultsZone.appendChild(elementBookCard);
 					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);
 				}
-				
+				// Add event listener on bookmark buttons
+				document.querySelectorAll('.clicBookmark').forEach(item => {
+					item.addEventListener('click', event => {
+						console.log('bookmark clicked : ' + event.target.id);
+						console.log(event.target);
+					})
+				})
 			}
 		};
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
@@ -77,11 +83,14 @@ function isValidInput(bookTitle, bookAuthor) {
 
 function createHtmlBookCard(responseItem) {
 	htmlBookCard = '<div class="bookCard">';
-	htmlBookCard += '<span class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</span><br/><hr class="hrCard"><br/>';
+	//htmlBookCard += '<span class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</span><br/><hr class="hrCard"><br/>';
+	htmlBookCard += '<div><div class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</div>';
+	htmlBookCard += '<div class="bookmark"><a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a></div></div>'
+	htmlBookCard += '<div class="noFloat"><hr class="hrCard"><br/>';
 	htmlBookCard += (responseItem.id) ? 
 		'<span class="bookId">Id : '+responseItem.id+'</span><br /><br/>' : 
 		'<span class="bookId">Id : Information manquante</span><br /><br/>';
-		htmlBookCard += (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
+	htmlBookCard += (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
 		'<span class="bookAuthor">Auteur : ' + responseItem.volumeInfo.authors[0] + '</span><br/><br/>' : 
 		'<span class="bookAuthor">Auteur : Information manquante</span><br /><br/>';
 	let descriptionHtml;
@@ -90,7 +99,7 @@ function createHtmlBookCard(responseItem) {
 			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description+'</span><br /><br />'  :
 			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description.substring(0, maxDescriptionSize)+'...</span><br /><br />';
 	} else {
-		descriptionHtml = '<span class="bookDescription">Description : Information manquante</span><br /><br />';
+		descriptionHtml = '<span class="bookDescription">Description : Information manquante</span><br /><br /></div>';
 	}
 	htmlBookCard += descriptionHtml;
 	// ImageLink

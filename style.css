@@ -125,14 +125,40 @@ input:focus {
 	border-color: #37a898;*/
 	border-radius: 10px;
 	/*background-color: #d0fcf6;*/
-	background-color: rgb(9, 175, 159);
+	background-color: rgb(116, 184, 177);
 	font-size: xxx-small;
 	text-align: left;
+}
+
+/*.titleBookmark {
+	width: 80%;
+}*/
+
+.noFloat {
+	clear: left;
+}
+
+.bookmark {
+	width: 10%;
+	float:left;
+	/*color: #a1ebe1;*/
+	/*color: white;*/
+}
+
+.clicBookmark {
+	cursor: pointer;
+	color: white;
+}
+
+.clicBookmark:hover {
+	color: #a1ebe1;
 }
 
 .bookTitle {
 	font-weight: bold;
 	color: white;
+	width: 90%;
+	float:left;
 }
 
 .bookId {

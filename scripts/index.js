@@ -107,15 +107,24 @@ function createInputText (inputClass, inputId) {
 	divInputText.classList.add(inputClass);
 	const elementInputText = document.createElement('input');
 	elementInputText.setAttribute('type', 'text');
+	elementInputText.setAttribute('required', 'required');
 	elementInputText.id = inputId;
 	switch (inputId) {
 		case 'bookTitle' :
 			elementInputText.addEventListener('input', function(e) {
+				// remove error class on input if exists
+				if (elementInputText.classList.contains('error')){
+					elementInputText.classList.remove('error');
+				}
 				bookTitle = e.target.value;
 			});
 			break;
 		case 'bookAuthor' : 
 			elementInputText.addEventListener('input', function(e) {
+				// remove error class on input if exists
+				if (elementInputText.classList.contains('error')){
+					elementInputText.classList.remove('error');
+				}
 				bookAuthor = e.target.value;
 			});
 			break;
@@ -181,13 +190,24 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
 		request.send();
 	} else {
-		window.alert("Merci de saisir un titre et un auteur");
+		//window.alert("Merci de saisir un titre et un auteur");
 	}
 }
 
 function isValidInput(bookTitle, bookAuthor) {
 	result = ((bookTitle == '') && (bookAuthor == '')) ? false : true;
 	//result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
+	// Change style of input if there are invalid
+	if (bookTitle == '') {
+		const titleInput = document.getElementById('bookTitle');
+		titleInput.setAttribute('placeholder','Veuillez saisir un titre');
+		titleInput.classList.add('error');
+	}
+	if (bookAuthor == '') {
+		const authorInput = document.getElementById('bookAuthor');
+		authorInput.setAttribute('placeholder','Veuillez saisir un auteur')
+		authorInput.classList.add('error');
+	}
 	return result;
 }
 

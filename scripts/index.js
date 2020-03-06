@@ -138,12 +138,12 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
 		request.send();
 	} else {
-		window.alert("Merci de saisir un titre ou un auteur");
+		window.alert("Merci de saisir un titre et un auteur");
 	}
 }
 
 function isValidInput(bookTitle, bookAuthor) {
-	result = ((bookTitle == '') && (bookAuthor == '')) ? false : true;
+	result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
 	return result;
 }
 

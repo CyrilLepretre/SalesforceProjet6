@@ -1,6 +1,6 @@
 body {
 	font-family: 'Spartan', arial;
-	font-size: xx-small;
+	font-size: small;
 }
 
 input {
@@ -8,20 +8,20 @@ input {
 	border-radius: 10rem;
 	padding: 10px 20px;
 	outline: none;
-	border: 2px solid #eafaf8;
+	border: 2px solid #b7e9e2;
 	font-family: 'Spartan', arial;
-	font-size: xxx-small;
+	/*font-size: xx-small;*/
 }
 
 input:focus {
-	width: 40%;
+	/*width: 40%;
 	border-radius: 10rem;
 	padding: 10px 20px;
-	outline: none;
-	border: 2px solid #a1ebe1;
+	outline: none;*/
+	border: 2px solid #16e6ca;
 }
 
-#h2 {
+.h2 {
 	font-family: 'Spartan', arial;
 	font-size: large;
 	color: #37a898;
@@ -48,7 +48,7 @@ input:focus {
 	background-color: #a1ebe1;
 	color: #37a898;
 	font-family: 'Spartan', arial;
-	font-size: small;
+	/*font-size: small;*/
 	transition-duration: 600ms;
 	outline: none;
 }
@@ -69,7 +69,7 @@ input:focus {
 	background-color: #a1ebe1;
 	color: #37a898;
 	font-family: 'Spartan', arial;
-	font-size: small;
+	/*font-size: small;*/
 	transition-duration: 600ms;
 	outline: none;
 }
@@ -90,7 +90,7 @@ input:focus {
 	background-color: #e9a339;
 	color: black;
 	font-family: 'Spartan', arial;
-	font-size: small;
+	/*font-size: small;*/
 	transition-duration: 600ms;
 	outline: none;
 }
@@ -124,9 +124,8 @@ input:focus {
 	border-width: medium;
 	border-color: #37a898;*/
 	border-radius: 10px;
-	/*background-color: #d0fcf6;*/
-	background-color: rgb(116, 184, 177);
-	font-size: xxx-small;
+	background-color: #37a898;
+	font-size: small;
 	text-align: left;
 }
 
@@ -141,6 +140,7 @@ input:focus {
 .bookmark {
 	width: 10%;
 	float:left;
+	text-align: right;
 	/*color: #a1ebe1;*/
 	/*color: white;*/
 }

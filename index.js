@@ -2,46 +2,112 @@ var bookTitle = '';
 var bookAuthor = '';
 var searchResultsHtml;
 const maxDescriptionSize = 199; // +1 for string[0]
-// title replaced by logo
-document.getElementsByClassName("title")[0].innerHTML = "<div id=\"logo\"><img class=\"logo\" src=\"/img/logo.png\" alt=\"Logo\" srcset=\"/img/logo.svg\" /></div>";
 
-// Replace h2 class by h2 id to not inherit it to children that will be created
-document.getElementsByClassName("h2")[0].innerHTML = "<h2 id=\"h2\">Nouveau Livre</h2>";
+// Initialize global html structure
+document.body.onload = init();
 
-const newBookTitle = document.querySelector("#myBooks h2");
-const elementAddBook = document.createElement("div");
-newBookTitle.appendChild(elementAddBook);
-elementAddBook.innerHTML = "<div><button id=\"buttonAddABook\"type=\"button\"><i class=\"fas fa-plus-circle\"></i> Ajouter un livre</button></div>";
+/***********************************
+			FUNCTIONS
+************************************/
+function init () {
+	// replace title by the logo in a div
+	const elementPrincipalDiv = document.getElementById('myBooks');
+	const elementTitle = document.getElementsByClassName('title')[0];
+	const elementDivLogo = document.createElement('div');
+	elementDivLogo.id = 'logo';
+	elementDivLogo.innerHTML = '<img class="logo" src="/img/logo.png" alt="Logo" srcset="/img/logo.svg" />'
+	elementPrincipalDiv.replaceChild(elementDivLogo, elementTitle);
+	// replace h2 class h2 by a div for new book button/search book
+	const elementH2class = document.querySelector("#myBooks h2");
+	const elementDivNewBook = document.createElement('div');
+	elementDivNewBook.id = 'newBook';
+	elementPrincipalDiv.replaceChild(elementDivNewBook, elementH2class);
+	initAddBook(elementDivNewBook);
+}
 
-const pochList = document.querySelector("#content h2");
+function initAddBook (elementDivNewBook) {
+	const elementAddBookTitle = document.createElement('h2');
+	const textAddBookTitle = document.createTextNode('Nouveau Livre');
+	elementAddBookTitle.appendChild(textAddBookTitle);
+	elementAddBookTitle.classList.add('h2');
+	//document.getElementById('newBook').appendChild(elementAddBookTitle);
+	elementDivNewBook.appendChild(elementAddBookTitle);
+	const elementAddSearchBook = document.createElement('div');
+	elementAddSearchBook.id = 'addSearchBook';
+	elementDivNewBook.appendChild(elementAddSearchBook);
+	//addAddBookButton(elementAddSearchBook);
+	elementAddSearchBook.appendChild(createButton('buttonAddABook', '<i class="fas fa-plus-circle"></i> Ajouter un livre', elementAddSearchBook));
+}
 
-const buttonAddABook = document.getElementById("buttonAddABook");
-buttonAddABook.addEventListener('click', function(event) {
-	openFormAddBook();
-});
+function createButton (buttonId, innerToAdd, div) {
+	const elementButton = document.createElement('button');
+	elementButton.setAttribute('type', 'button');
+	elementButton.id = buttonId;
+	elementButton.innerHTML = innerToAdd;
+	// EventLister depending on button id
+	switch (buttonId) {
+		case 'buttonAddABook' :
+			elementButton.addEventListener('click', function() {
+				div.removeChild(elementButton);
+				addSearchFormBook(div);
+			});
+			break;
+		case 'buttonSearchBook' :
+			elementButton.addEventListener('click', function(){
+				callGoogleBooksAPI(bookTitle, bookAuthor);
+			});
+			break;
+		case 'buttonCancelSearchBook' :
+			
+			break;
+		default :
+			console.log('No listener for ' + buttonId + ' button');
+			break;
+	}
+	return elementButton;
+}
 
-openFormAddBook = () => {
-	//elementAddBook.classList.remove("h2");
-	elementAddBook.innerHTML = '<br /><div>Titre du livre</div><div><input type="text" id="bookTitle"/></div>'
-		+ '<div>Auteur</div><div><input type="text" id="bookAuthor"/></div>'
-		+ '<div><button id=\"buttonSearchBook\"type=\"button\"><i class="fas fa-search"></i> Rechercher</button></div>'
-		+ '<div><button id=\"buttonCancelSearchBook\"type=\"button\"><i class="fas fa-times"></i> Annuler</button></div>';
-	// get Title entered by user
-	const bookTitleInput = document.getElementById('bookTitle');
-	bookTitleInput.addEventListener('input', function(e) {
-		bookTitle = e.target.value;
-	});
+function createInputTitle (inputClass, InputText) {
+	const elementInputTitle = document.createElement('div');
+	elementInputTitle.classList.add(inputClass);
+	elementInputTitle.appendChild(document.createTextNode(InputText));
+	return elementInputTitle;
+}
 
-	// get Author entered by user
-	const bookAuthorInput = document.getElementById('bookAuthor');
-	bookAuthorInput.addEventListener('input', function(e) {
-		bookAuthor = e.target.value;
-	});
+function createInputText (inputClass, inputId) {
+	const divInputText = document.createElement('div');
+	divInputText.classList.add(inputClass);
+	const elementInputText = document.createElement('input');
+	elementInputText.setAttribute('type', 'text');
+	elementInputText.id = inputId;
+	switch (inputId) {
+		case 'bookTitle' :
+			elementInputText.addEventListener('input', function(e) {
+				bookTitle = e.target.value;
+			});
+			break;
+		case 'bookAuthor' : 
+			elementInputText.addEventListener('input', function(e) {
+				bookAuthor = e.target.value;
+			});
+			break;
+		default :
+			console.log('No listener for ' + inputId + ' input');
+			break;
+	}
+	divInputText.appendChild(elementInputText);
+	return divInputText;
+}
 
-	const searchButton = document.getElementById('buttonSearchBook');
-	searchButton.addEventListener('click', function(event){
-		callGoogleBooksAPI(bookTitle, bookAuthor);
-	});
+addSearchFormBook = (elementDivNewBook) => {
+	elementDivNewBook.appendChild(createInputTitle('inputFormTitle', 'Titre du livre'));
+	elementDivNewBook.appendChild(createInputText('inputFormText', 'bookTitle'));
+	elementDivNewBook.appendChild(createInputTitle('inputFormTitle', 'Auteur'));
+	elementDivNewBook.appendChild(createInputText('inputFormText', 'bookAuthor'));
+	const divButtons = document.createElement('div');
+	divButtons.appendChild(createButton('buttonSearchBook', '<i class="fas fa-search"></i> Rechercher'), '');
+	divButtons.appendChild(createButton('buttonCancelSearchBook', '<i class="fas fa-times"></i> Annuler'), '');
+	elementDivNewBook.appendChild(divButtons);
 }
 
 function callGoogleBooksAPI (bookTitle, bookAuthor) {

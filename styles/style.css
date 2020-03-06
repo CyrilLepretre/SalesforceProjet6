@@ -18,7 +18,18 @@ input:focus {
 	border-radius: 10rem;
 	padding: 10px 20px;
 	outline: none;*/
-	border: 2px solid #16e6ca;
+	border: 2px solid #04aa94;
+}
+
+button {
+	cursor: pointer;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 10rem;
+	border: 0px;
+	padding: 10px 20px;
+	font-family: 'Spartan', arial;
+	outline: none;
 }
 
 .h2 {
@@ -33,24 +44,20 @@ input:focus {
 	text-align: center;
 }
 
+/*#content {
+	background-color: #dff3f0;
+}*/
+
 #logo {
 	max-height:160px;
 	overflow: hidden;
 }
 
 #buttonAddABook {
-	cursor: pointer;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	border-radius: 10rem;
-	border: 0px;
-	padding: 10px 20px;
 	background-color: #a1ebe1;
 	color: #37a898;
-	font-family: 'Spartan', arial;
 	/*font-size: small;*/
 	transition-duration: 600ms;
-	outline: none;
 }
 
 #buttonAddABook:hover {
@@ -59,19 +66,11 @@ input:focus {
 }
 
 #buttonSearchBook {
-	cursor: pointer;
 	width: 150px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	border-radius: 10rem;
-	border: 0px;
-	padding: 10px 20px;
 	background-color: #a1ebe1;
 	color: #37a898;
-	font-family: 'Spartan', arial;
 	/*font-size: small;*/
 	transition-duration: 600ms;
-	outline: none;
 }
 
 #buttonSearchBook:hover {
@@ -80,19 +79,12 @@ input:focus {
 }
 
 #buttonCancelSearchBook {
-	cursor: pointer;
+	margin-top: 5px;
 	width: 150px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	border-radius: 10rem;
-	border: 0px;
-	padding: 10px 20px;
 	background-color: #e9a339;
 	color: black;
-	font-family: 'Spartan', arial;
 	/*font-size: small;*/
 	transition-duration: 600ms;
-	outline: none;
 }
 
 #buttonCancelSearchBook:hover {
@@ -100,12 +92,13 @@ input:focus {
 	color: white;
 }
 
-#searchResults {
+#searchResultsCards {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 100%;
 	justify-content: space-around;
+	/*background-color: #dff3f0;*/
 }
 
 .logo {
@@ -120,18 +113,17 @@ input:focus {
 	height: 400px;
 	margin: 10px 5px 10px 5px;
 	padding: 10px 5px 10px 5px;
-	/*border-style: solid;
-	border-width: medium;
-	border-color: #37a898;*/
+	border-style: solid;
+	border-width: 2px;
+	border-color: #37a898;
 	border-radius: 10px;
-	background-color: #37a898;
+	box-shadow: 5px 5px 5px #37a898;
+	/*background-color: #37a898;*/
+	background-color: white;
+	color: black;
 	font-size: small;
 	text-align: left;
 }
-
-/*.titleBookmark {
-	width: 80%;
-}*/
 
 .noFloat {
 	clear: left;
@@ -147,16 +139,15 @@ input:focus {
 
 .clicBookmark {
 	cursor: pointer;
-	color: white;
+	color: #a1ebe1;
 }
 
 .clicBookmark:hover {
-	color: #a1ebe1;
+	color: #37a898;
 }
 
 .bookTitle {
 	font-weight: bold;
-	color: white;
 	width: 90%;
 	float:left;
 }
@@ -164,17 +155,14 @@ input:focus {
 .bookId {
 	font-weight: bold;
 	font-style: italic;
-	color: white;
 }
 
 .bookAuthor {
 	font-weight: normal;
-	color: white;
 }
 
 .bookDescription {
 	font-weight: normal;
-	color: white;
 }
 
 .thumbnailImg {
@@ -187,7 +175,7 @@ input:focus {
 
 hr.hrCard {
 	/*border-color : white;*/
-	background-color: white;
+	background-color: #37a898;
 	height: 1px;
 	border: 0;
 }

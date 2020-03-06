@@ -18,25 +18,51 @@ function init () {
 	elementDivLogo.innerHTML = '<img class="logo" src="/img/logo.png" alt="Logo" srcset="/img/logo.svg" />'
 	elementPrincipalDiv.replaceChild(elementDivLogo, elementTitle);
 	// replace h2 class h2 by a div for new book button/search book
-	const elementH2class = document.querySelector("#myBooks h2");
+	const elementH2class = document.querySelector('#myBooks h2');
 	const elementDivNewBook = document.createElement('div');
 	elementDivNewBook.id = 'newBook';
 	elementPrincipalDiv.replaceChild(elementDivNewBook, elementH2class);
 	initAddBook(elementDivNewBook);
+	// replace h2 pochList by a div to display search results and pochlist
+	const elementContentDiv = document.getElementById('content');
+	const elementH2PochList = document.querySelector('#content h2');
+	const elementSearchResults = document.createElement('div');
+	elementSearchResults.id = 'searchResults';
+	elementContentDiv.replaceChild(elementSearchResults, elementH2PochList);
+	const elementDivPochList = document.createElement('div');
+	elementDivPochList.id = 'pochList';
+	initPochList(elementDivPochList);
+	elementContentDiv.appendChild(elementDivPochList);
+}
+
+function initPochList (div) {
+	const elementTitle = document.createElement('h2');
+	const textTitle = document.createTextNode('Ma poch\'liste');
+	elementTitle.appendChild(textTitle);
+	elementTitle.classList.add('h2');
+	div.appendChild(elementTitle);
 }
 
 function initAddBook (elementDivNewBook) {
-	const elementAddBookTitle = document.createElement('h2');
+	/*const elementAddBookTitle = document.createElement('h2');
 	const textAddBookTitle = document.createTextNode('Nouveau Livre');
 	elementAddBookTitle.appendChild(textAddBookTitle);
 	elementAddBookTitle.classList.add('h2');
-	//document.getElementById('newBook').appendChild(elementAddBookTitle);
-	elementDivNewBook.appendChild(elementAddBookTitle);
+	elementDivNewBook.appendChild(elementAddBookTitle);*/
+	addTitleInDiv(elementDivNewBook, 'Nouveau Livre', 'h2', 'h2');
 	const elementAddSearchBook = document.createElement('div');
 	elementAddSearchBook.id = 'addSearchBook';
 	elementDivNewBook.appendChild(elementAddSearchBook);
 	//addAddBookButton(elementAddSearchBook);
 	elementAddSearchBook.appendChild(createButton('buttonAddABook', '<i class="fas fa-plus-circle"></i> Ajouter un livre', elementAddSearchBook));
+}
+
+function addTitleInDiv (div, title, elementInput, classInput) {
+	const element = document.createElement(elementInput);
+	const textTitle = document.createTextNode(title);
+	element.appendChild(textTitle);
+	element.classList.add(classInput);
+	div.appendChild(element);
 }
 
 function createButton (buttonId, innerToAdd, div) {
@@ -58,7 +84,9 @@ function createButton (buttonId, innerToAdd, div) {
 			});
 			break;
 		case 'buttonCancelSearchBook' :
-			
+			elementButton.addEventListener('click', function(){
+				cancelSearch();
+			});
 			break;
 		default :
 			console.log('No listener for ' + buttonId + ' button');
@@ -104,10 +132,21 @@ addSearchFormBook = (elementDivNewBook) => {
 	elementDivNewBook.appendChild(createInputText('inputFormText', 'bookTitle'));
 	elementDivNewBook.appendChild(createInputTitle('inputFormTitle', 'Auteur'));
 	elementDivNewBook.appendChild(createInputText('inputFormText', 'bookAuthor'));
-	const divButtons = document.createElement('div');
-	divButtons.appendChild(createButton('buttonSearchBook', '<i class="fas fa-search"></i> Rechercher'), '');
-	divButtons.appendChild(createButton('buttonCancelSearchBook', '<i class="fas fa-times"></i> Annuler'), '');
-	elementDivNewBook.appendChild(divButtons);
+	const searchButton = document.createElement('div');
+	searchButton.appendChild(createButton('buttonSearchBook', '<i class="fas fa-search"></i> Rechercher'), '');
+	elementDivNewBook.appendChild(searchButton);
+	const cancelButton = document.createElement('div');
+	cancelButton.appendChild(createButton('buttonCancelSearchBook', '<i class="fas fa-times"></i> Annuler'), '');
+	elementDivNewBook.appendChild(cancelButton);
+}
+
+function cancelSearch() {
+	const searchResultDiv = document.getElementById('searchResults');
+	searchResultDiv.innerHTML = '';
+	document.getElementById('bookTitle').value = '';
+	document.getElementById('bookAuthor').value = '';
+	bookTitle = '';
+	bookAuthor = '';
 }
 
 function callGoogleBooksAPI (bookTitle, bookAuthor) {
@@ -117,14 +156,18 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				var response = JSON.parse(this.responseText);
 
-				const searchResultsHtml = '<h2>Résultats de recherche</h2><div id="searchResults"></div>';
-				pochList.innerHTML = searchResultsHtml;
+				const searchResultDiv = document.getElementById('searchResults');
+				addTitleInDiv(searchResultDiv, 'Résultats de recherche', 'h2', 'h2');
 
-				const searchResultsZone = document.getElementById('searchResults');
+				const elementDivResults = document.createElement('div');
+				elementDivResults.id = 'searchResultsCards';
+				searchResultDiv.appendChild(elementDivResults);
+
 				for (let i=0; i<response.items.length; i++) {
-					const elementBookCard = document.createElement('div');
-					searchResultsZone.appendChild(elementBookCard);
-					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);
+					/*const elementBookCard = document.createElement('div');
+					elementDivResults.appendChild(elementBookCard);
+					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);*/
+					elementDivResults.innerHTML = createHtmlBookCard(response.items[i]);
 				}
 				// Add event listener on bookmark buttons
 				document.querySelectorAll('.clicBookmark').forEach(item => {
@@ -143,7 +186,8 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 }
 
 function isValidInput(bookTitle, bookAuthor) {
-	result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
+	result = ((bookTitle == '') && (bookAuthor == '')) ? false : true;
+	//result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
 	return result;
 }
 

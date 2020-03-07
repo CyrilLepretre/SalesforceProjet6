@@ -1,5 +1,6 @@
 var bookTitle = '';
 var bookAuthor = '';
+var newSearch = true;
 var searchResultsHtml;
 const maxDescriptionSize = 199; // +1 for string[0]
 
@@ -44,16 +45,10 @@ function initPochList (div) {
 }
 
 function initAddBook (elementDivNewBook) {
-	/*const elementAddBookTitle = document.createElement('h2');
-	const textAddBookTitle = document.createTextNode('Nouveau Livre');
-	elementAddBookTitle.appendChild(textAddBookTitle);
-	elementAddBookTitle.classList.add('h2');
-	elementDivNewBook.appendChild(elementAddBookTitle);*/
 	addTitleInDiv(elementDivNewBook, 'Nouveau Livre', 'h2', 'h2');
 	const elementAddSearchBook = document.createElement('div');
 	elementAddSearchBook.id = 'addSearchBook';
 	elementDivNewBook.appendChild(elementAddSearchBook);
-	//addAddBookButton(elementAddSearchBook);
 	elementAddSearchBook.appendChild(createButton('buttonAddABook', '<i class="fas fa-plus-circle"></i> Ajouter un livre', elementAddSearchBook));
 }
 
@@ -156,6 +151,7 @@ function cancelSearch() {
 	document.getElementById('bookAuthor').value = '';
 	bookTitle = '';
 	bookAuthor = '';
+	newSearch = true;
 }
 
 function callGoogleBooksAPI (bookTitle, bookAuthor) {
@@ -164,7 +160,11 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		request.onreadystatechange = function() {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				var response = JSON.parse(this.responseText);
-
+				// Clean searchResults before displaying results
+				if (!newSearch) {
+					const toClean = document.getElementById('searchResults');
+					toClean.innerHTML = '';
+				}
 				const searchResultDiv = document.getElementById('searchResults');
 				addTitleInDiv(searchResultDiv, 'Résultats de recherche', 'h2', 'h2');
 
@@ -176,7 +176,7 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					/*const elementBookCard = document.createElement('div');
 					elementDivResults.appendChild(elementBookCard);
 					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);*/
-					elementDivResults.innerHTML = createHtmlBookCard(response.items[i]);
+					elementDivResults.appendChild(createBookCard(response.items[i]));
 				}
 				// Add event listener on bookmark buttons
 				document.querySelectorAll('.clicBookmark').forEach(item => {
@@ -185,6 +185,7 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 						console.log(event.target);
 					})
 				})
+				newSearch = false;
 			}
 		};
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
@@ -211,37 +212,70 @@ function isValidInput(bookTitle, bookAuthor) {
 	return result;
 }
 
-function createHtmlBookCard(responseItem) {
-	htmlBookCard = '<div class="bookCard">';
-	//htmlBookCard += '<span class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</span><br/><hr class="hrCard"><br/>';
-	htmlBookCard += '<div><div class="bookTitle">Titre : ' + responseItem.volumeInfo.title + '</div>';
-	htmlBookCard += '<div class="bookmark"><a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a></div></div>'
-	htmlBookCard += '<div class="noFloat"><hr class="hrCard"><br/>';
-	htmlBookCard += (responseItem.id) ? 
-		'<span class="bookId">Id : '+responseItem.id+'</span><br /><br/>' : 
-		'<span class="bookId">Id : Information manquante</span><br /><br/>';
-	htmlBookCard += (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
-		'<span class="bookAuthor">Auteur : ' + responseItem.volumeInfo.authors[0] + '</span><br/><br/>' : 
-		'<span class="bookAuthor">Auteur : Information manquante</span><br /><br/>';
-	let descriptionHtml;
+function createHeaderBookCard(responseItem) {
+	const headerCard = document.createElement('div');
+	headerCard.classList.add('float');
+	const bookTitleCard = document.createElement('div');
+	bookTitleCard.classList.add('bookTitle');
+	bookTitleCard.appendChild(document.createTextNode('Titre : ' + responseItem.volumeInfo.title +' '));
+	headerCard.appendChild(bookTitleCard);
+	const bookmarkCard = document.createElement('div');
+	bookmarkCard.classList.add('bookmark');
+	bookmarkCard.innerHTML = '<a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a>';
+	headerCard.appendChild(bookmarkCard);
+	return headerCard;
+}
+
+function createContentBookCard(responseItem) {
+	let textSpan;
+	const contentCard = document.createElement('div');
+	contentCard.classList.add('noFloat');
+	const hrCard = document.createElement('hr');
+	hrCard.classList.add('hrCard');
+	contentCard.appendChild(hrCard);
+	// Id
+	textSpan = (responseItem.id) ? 'Id : ' + responseItem.id : 'Information manquante';
+	contentCard.appendChild(createSpanCard('bookId', textSpan));
+	// Author
+	textSpan = (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
+		'Auteur : ' + responseItem.volumeInfo.authors[0] : 'Information manquante';
+	contentCard.appendChild(createSpanCard('bookAuthor', textSpan));
+	// Description
 	if (responseItem.volumeInfo.description){
-		descriptionHtml = (responseItem.volumeInfo.description.length < 200) ? 
-			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description+'</span><br /><br />'  :
-			'<span class="bookDescription">Description : '+responseItem.volumeInfo.description.substring(0, maxDescriptionSize)+'...</span><br /><br />';
+		textSpan = (responseItem.volumeInfo.description.length < 200) ? 
+			'Description : ' + responseItem.volumeInfo.description :
+			'Description : ' + responseItem.volumeInfo.description.substring(0, maxDescriptionSize) + '...';
 	} else {
-		descriptionHtml = '<span class="bookDescription">Description : Information manquante</span><br /><br /></div>';
+		textSpan = 'Description : Information manquante';
 	}
-	htmlBookCard += descriptionHtml;
-	// ImageLink
-	htmlBookCard += '<div class="thumbnail"><img class="thumbnailImg" src=';
-	htmlBookCard += responseItem.volumeInfo.imageLinks ? 
-		(responseItem.volumeInfo.imageLinks.thumbnail ? responseItem.volumeInfo.imageLinks.thumbnail : '"/img/unavailable.png"') :'"/img/unavailable.png"';
-	htmlBookCard += '></div>';
-	/*if (responseItem.volumeInfo.imageLinks){
-		if (responseItem.volumeInfo.imageLinks.thumbnail){
-			
-		}
-	}*/
-	htmlBookCard += '</div>';
-	return htmlBookCard;
+	contentCard.appendChild(createSpanCard('bookDescription', textSpan));
+	return contentCard;
+}
+
+function createSpanCard(classSpan, textSpan) {
+	const spanCard = document.createElement('span');
+	spanCard.classList.add(classSpan);
+	const spanContent = document.createTextNode(textSpan);
+	spanCard.appendChild(spanContent);
+	return spanCard;
+}
+
+function createBookCard(responseItem) {
+	const bookCard = document.createElement('div');
+	bookCard.classList.add('bookCard');
+	bookCard.appendChild(createHeaderBookCard(responseItem));
+	bookCard.appendChild(createContentBookCard(responseItem));
+	const elementImageCard = document.createElement('div');
+	elementImageCard.classList.add('thumbnail');
+	const imageCard = document.createElement('img');
+	imageCard.classList.add('thumbnailImg');
+	let imageSrc = responseItem.volumeInfo.imageLinks ? 
+		(responseItem.volumeInfo.imageLinks.thumbnail ? 
+			responseItem.volumeInfo.imageLinks.thumbnail : 
+			'/img/unavailable.png') :
+		'/img/unavailable.png'; 
+	imageCard.setAttribute('src', imageSrc);
+	elementImageCard.appendChild(imageCard);
+	bookCard.appendChild(elementImageCard);
+	return bookCard;
 }

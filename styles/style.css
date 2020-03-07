@@ -11,14 +11,9 @@ input {
 	outline: none;
 	border: 2px solid #b7e9e2;
 	font-family: 'Spartan', arial;
-	/*font-size: xx-small;*/
 }
 
 input:focus {
-	/*width: 40%;
-	border-radius: 10rem;
-	padding: 10px 20px;
-	outline: none;*/
 	border: 2px solid #04aa94;
 }
 
@@ -27,9 +22,10 @@ input.error {
 	transition-duration: 600ms;
 }
 
-/*input:invalid {
-	border: 2px solid red;
-}*/
+span {
+	display: block;
+	margin-bottom: 10px;
+}
 
 button {
 	cursor: pointer;
@@ -58,10 +54,6 @@ button {
 	text-align: center;
 }
 
-/*#content {
-	background-color: #dff3f0;
-}*/
-
 #logo {
 	max-height:160px;
 	overflow: hidden;
@@ -69,26 +61,24 @@ button {
 
 #buttonAddABook {
 	background-color: #a1ebe1;
-	color: #37a898;
-	/*font-size: small;*/
+	color: #23ac99;
 	transition-duration: 600ms;
 }
 
 #buttonAddABook:hover {
-	background-color: #37a898;
+	background-color: #23ac99;
 	color: white;
 }
 
 #buttonSearchBook {
 	width: 150px;
 	background-color: #a1ebe1;
-	color: #37a898;
-	/*font-size: small;*/
+	color: #128b7b;
 	transition-duration: 600ms;
 }
 
 #buttonSearchBook:hover {
-	background-color: #37a898;
+	background-color: #23ac99;
 	color: white;
 }
 
@@ -96,8 +86,7 @@ button {
 	margin-top: 5px;
 	width: 150px;
 	background-color: #e9a339;
-	color: black;
-	/*font-size: small;*/
+	color: #925b09;
 	transition-duration: 600ms;
 }
 
@@ -112,7 +101,6 @@ button {
 	flex-wrap: wrap;
 	width: 100%;
 	justify-content: space-around;
-	/*background-color: #dff3f0;*/
 }
 
 .logo {
@@ -132,7 +120,6 @@ button {
 	border-color: #37a898;
 	border-radius: 10px;
 	box-shadow: 5px 5px 5px #37a898;
-	/*background-color: #37a898;*/
 	background-color: white;
 	color: black;
 	font-size: small;
@@ -147,8 +134,6 @@ button {
 	width: 10%;
 	float:left;
 	text-align: right;
-	/*color: #a1ebe1;*/
-	/*color: white;*/
 }
 
 .clicBookmark {
@@ -188,7 +173,6 @@ button {
 }
 
 hr.hrCard {
-	/*border-color : white;*/
 	background-color: #37a898;
 	height: 1px;
 	border: 0;

@@ -2,6 +2,8 @@ var bookTitle = '';
 var bookAuthor = '';
 var newSearch = true;
 var searchResultsHtml;
+var response; // to store WS response
+var pochListFavorites = new Map();
 const maxDescriptionSize = 199; // +1 for string[0]
 
 // Initialize global html structure
@@ -159,7 +161,8 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		let request = new XMLHttpRequest();
 		request.onreadystatechange = function() {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-				var response = JSON.parse(this.responseText);
+				response = JSON.parse(this.responseText);
+				console.log(JSON.stringify(response));
 				// Clean searchResults before displaying results
 				if (!newSearch) {
 					const toClean = document.getElementById('searchResults');
@@ -179,12 +182,13 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					elementDivResults.appendChild(createBookCard(response.items[i]));
 				}
 				// Add event listener on bookmark buttons
-				document.querySelectorAll('.clicBookmark').forEach(item => {
+				/*document.querySelectorAll('.clicBookmark').forEach(item => {
 					item.addEventListener('click', event => {
 						console.log('bookmark clicked : ' + event.target.id);
 						console.log(event.target);
+						addToFavorites(event.target.id,'coucou');
 					})
-				})
+				})*/
 				newSearch = false;
 			}
 		};
@@ -221,12 +225,23 @@ function createHeaderBookCard(responseItem) {
 	headerCard.appendChild(bookTitleCard);
 	const bookmarkCard = document.createElement('div');
 	bookmarkCard.classList.add('bookmark');
-	bookmarkCard.innerHTML = '<a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a>';
+	//bookmarkCard.innerHTML = '<a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a>';
+	
+	const bookmarkLink = document.createElement('a');
+	bookmarkLink.classList.add("clicBookmark");
+	bookmarkLink.innerHTML = '<i class="fas fa-bookmark" id="'+responseItem.id+'"></i>';
+	bookmarkLink.addEventListener('click', event => {
+		console.log('bookmark clicked : ' + event.target.id);
+		addToFavorites(event.target.id,responseItem);
+	});
+	bookmarkCard.appendChild(bookmarkLink);
+
 	headerCard.appendChild(bookmarkCard);
 	return headerCard;
 }
 
 function createContentBookCard(responseItem) {
+	//console.log(JSON.stringify(responseItem));
 	let textSpan;
 	const contentCard = document.createElement('div');
 	contentCard.classList.add('noFloat');
@@ -278,4 +293,22 @@ function createBookCard(responseItem) {
 	elementImageCard.appendChild(imageCard);
 	bookCard.appendChild(elementImageCard);
 	return bookCard;
+}
+
+function addToFavorites(idToAdd, itemToAdd) {
+	if (!pochListFavorites.get(idToAdd)) {
+		// The id doesn't exist in favorites list
+		pochListFavorites.set(idToAdd,itemToAdd);
+		updateSessionStorage();
+		// TODO - UPDATE DE L'AFFICHAGE DE LA POCHLIST
+	} else {
+		alert('Vous ne pouvez ajouter deux fois le même livre');
+	}
+}
+
+function updateSessionStorage() {
+	// Serialize Map pochListFavorites
+	let pochListFavoriteString = JSON.stringify(Array.from(pochListFavorites.entries()));
+	sessionStorage.setItem('pochlib',pochListFavoriteString);
+	console.log('updateCLE : ' + pochListFavoriteString);
 }

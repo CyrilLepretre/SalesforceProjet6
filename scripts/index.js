@@ -182,12 +182,17 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 				elementDivResults.id = 'searchResultsCards';
 				searchResultDiv.appendChild(elementDivResults);
 
-				for (let i=0; i<response.items.length; i++) {
-					/*const elementBookCard = document.createElement('div');
-					elementDivResults.appendChild(elementBookCard);
-					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);*/
+				// Check if there are results, otherwise display a message for no results found
+				if (response.items) {
+					for (let i=0; i<response.items.length; i++) {
 					elementDivResults.appendChild(createBookCard(response.items[i]), false);
+					}
+				} else {
+					const noResult = document.createElement('span');
+					noResult.appendChild(document.createTextNode('Aucun résultat trouvé'));
+					elementDivResults.appendChild(noResult);
 				}
+				
 				// Add event listener on bookmark buttons
 				/*document.querySelectorAll('.clicBookmark').forEach(item => {
 					item.addEventListener('click', event => {

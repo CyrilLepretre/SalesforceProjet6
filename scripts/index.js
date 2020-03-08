@@ -44,6 +44,9 @@ function initPochList (div) {
 	elementTitle.appendChild(textTitle);
 	elementTitle.classList.add('h2');
 	div.appendChild(elementTitle);
+	const pochListContent = document.createElement('div');
+	pochListContent.id = 'pochListContent';
+	div.appendChild(pochListContent);
 }
 
 function initAddBook (elementDivNewBook) {

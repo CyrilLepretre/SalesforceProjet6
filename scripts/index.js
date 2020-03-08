@@ -47,6 +47,7 @@ function initPochList (div) {
 	const textTitle = document.createTextNode('Ma poch\'liste');
 	elementTitle.appendChild(textTitle);
 	elementTitle.classList.add('h2');
+	elementTitle.classList.add('h2poch');
 	div.appendChild(elementTitle);
 	const pochListContent = document.createElement('div');
 	pochListContent.id = 'pochListContent';
@@ -93,7 +94,7 @@ function createButton (buttonId, innerToAdd, div) {
 			});
 			break;
 		default :
-			console.log('No listener for ' + buttonId + ' button');
+			//console.log('No listener for ' + buttonId + ' button');
 			break;
 	}
 	return elementButton;
@@ -115,6 +116,7 @@ function createInputText (inputClass, inputId) {
 	elementInputText.id = inputId;
 	switch (inputId) {
 		case 'bookTitle' :
+			elementInputText.setAttribute('placeholder','Veuillez saisir un titre');
 			elementInputText.addEventListener('input', function(e) {
 				// remove error class on input if exists
 				if (elementInputText.classList.contains('error')){
@@ -124,6 +126,7 @@ function createInputText (inputClass, inputId) {
 			});
 			break;
 		case 'bookAuthor' : 
+			elementInputText.setAttribute('placeholder','Veuillez saisir un auteur');
 			elementInputText.addEventListener('input', function(e) {
 				// remove error class on input if exists
 				if (elementInputText.classList.contains('error')){
@@ -133,7 +136,7 @@ function createInputText (inputClass, inputId) {
 			});
 			break;
 		default :
-			console.log('No listener for ' + inputId + ' input');
+			//console.log('No listener for ' + inputId + ' input');
 			break;
 	}
 	divInputText.appendChild(elementInputText);
@@ -192,19 +195,11 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					noResult.appendChild(document.createTextNode('Aucun résultat trouvé'));
 					elementDivResults.appendChild(noResult);
 				}
-				
-				// Add event listener on bookmark buttons
-				/*document.querySelectorAll('.clicBookmark').forEach(item => {
-					item.addEventListener('click', event => {
-						console.log('bookmark clicked : ' + event.target.id);
-						console.log(event.target);
-						addToFavorites(event.target.id,'coucou');
-					})
-				})*/
 				newSearch = false;
 			}
 		};
-		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
+		//request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
+		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=intitle:" + bookTitle + '+inauthor:' + bookAuthor);
 		request.send();
 	} else {
 		//window.alert("Merci de saisir un titre et un auteur");
@@ -212,17 +207,17 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 }
 
 function isValidInput(bookTitle, bookAuthor) {
-	result = ((bookTitle == '') && (bookAuthor == '')) ? false : true;
+	result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
 	//result = ((bookTitle == '') || (bookAuthor == '')) ? false : true;
 	// Change style of input if there are invalid
 	if (bookTitle == '') {
 		const titleInput = document.getElementById('bookTitle');
-		titleInput.setAttribute('placeholder','Veuillez saisir un titre');
+		//titleInput.setAttribute('placeholder','Veuillez saisir un titre');
 		titleInput.classList.add('error');
 	}
 	if (bookAuthor == '') {
 		const authorInput = document.getElementById('bookAuthor');
-		authorInput.setAttribute('placeholder','Veuillez saisir un auteur')
+		//authorInput.setAttribute('placeholder','Veuillez saisir un auteur')
 		authorInput.classList.add('error');
 	}
 	return result;

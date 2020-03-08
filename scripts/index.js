@@ -186,7 +186,7 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					/*const elementBookCard = document.createElement('div');
 					elementDivResults.appendChild(elementBookCard);
 					elementBookCard.innerHTML = createHtmlBookCard(response.items[i]);*/
-					elementDivResults.appendChild(createBookCard(response.items[i]));
+					elementDivResults.appendChild(createBookCard(response.items[i]), false);
 				}
 				// Add event listener on bookmark buttons
 				/*document.querySelectorAll('.clicBookmark').forEach(item => {
@@ -223,7 +223,7 @@ function isValidInput(bookTitle, bookAuthor) {
 	return result;
 }
 
-function createHeaderBookCard(responseItem) {
+function createHeaderBookCard(responseItem, pochList) {
 	const headerCard = document.createElement('div');
 	headerCard.classList.add('float');
 	const bookTitleCard = document.createElement('div');
@@ -232,28 +232,39 @@ function createHeaderBookCard(responseItem) {
 	headerCard.appendChild(bookTitleCard);
 	const bookmarkCard = document.createElement('div');
 	bookmarkCard.classList.add('bookmark');
-	//bookmarkCard.innerHTML = '<a class="clicBookmark"><i class="fas fa-bookmark" id="'+responseItem.id+'"></i></a>';
-	
 	const bookmarkLink = document.createElement('a');
-	bookmarkLink.classList.add("clicBookmark");
-	bookmarkLink.innerHTML = '<i class="fas fa-bookmark" id="'+responseItem.id+'"></i>';
-	bookmarkLink.addEventListener('click', event => {
-		console.log('bookmark clicked : ' + event.target.id);
-		addToFavorites(event.target.id, responseItem);
-	});
+	if (pochList) {
+		bookmarkLink.classList.add("clicDeleteBook");
+		bookmarkLink.innerHTML = '<i class="fas fa-times" id="'+responseItem.id+'"></i>';
+		bookmarkLink.addEventListener('click', event => {
+			console.log('Delte clicked : ' + event.target.id);
+			deleteFromFavorites(event.target.id);
+		});
+	} else {
+		bookmarkLink.classList.add("clicBookmark");
+		bookmarkLink.innerHTML = '<i class="fas fa-bookmark" id="'+responseItem.id+'"></i>';
+		bookmarkLink.addEventListener('click', event => {
+			console.log('bookmark clicked : ' + event.target.id);
+			addToFavorites(event.target.id, responseItem);
+		});
+	}
 	bookmarkCard.appendChild(bookmarkLink);
 
 	headerCard.appendChild(bookmarkCard);
 	return headerCard;
 }
 
-function createContentBookCard(responseItem) {
+function createContentBookCard(responseItem, pochList) {
 	//console.log(JSON.stringify(responseItem));
 	let textSpan;
 	const contentCard = document.createElement('div');
 	contentCard.classList.add('noFloat');
 	const hrCard = document.createElement('hr');
-	hrCard.classList.add('hrCard');
+	if (pochList) {
+		hrCard.classList.add('hrCardPochList');
+	} else {
+		hrCard.classList.add('hrCard');
+	}
 	contentCard.appendChild(hrCard);
 	// Id
 	textSpan = (responseItem.id) ? 'Id : ' + responseItem.id : 'Id : Information manquante';
@@ -282,11 +293,14 @@ function createSpanCard(classSpan, textSpan) {
 	return spanCard;
 }
 
-function createBookCard(responseItem) {
+function createBookCard(responseItem, pochList) {
 	const bookCard = document.createElement('div');
 	bookCard.classList.add('bookCard');
-	bookCard.appendChild(createHeaderBookCard(responseItem));
-	bookCard.appendChild(createContentBookCard(responseItem));
+	if (pochList) {
+		bookCard.classList.add('pochListCard');
+	}
+	bookCard.appendChild(createHeaderBookCard(responseItem, pochList));
+	bookCard.appendChild(createContentBookCard(responseItem, pochList));
 	const elementImageCard = document.createElement('div');
 	elementImageCard.classList.add('thumbnail');
 	const imageCard = document.createElement('img');
@@ -322,6 +336,12 @@ function addToFavorites(idToAdd, itemToAdd) {
 	}
 }
 
+function deleteFromFavorites(idToDelete) {
+	pochListFavorites.delete(idToDelete);
+	updateSessionStorage();
+	refreshPochListContent();
+}
+
 function updateSessionStorage() {
 	// Serialize Map pochListFavorites
 	let pochListFavoriteString = JSON.stringify(Array.from(pochListFavorites.entries()));
@@ -338,7 +358,7 @@ function refreshPochListContent() {
 	if (pochListFavorites) {
 		for (let [favoriteId, favoriteContent] of pochListFavorites) {
 			//console.log('Favori ID pochlist : ' + favoriteId);
-			newPochListContent.appendChild(createBookCard(favoriteContent));
+			newPochListContent.appendChild(createBookCard(favoriteContent, true));
 		}
 	}
 	// Replace old content of poshlist by the new content

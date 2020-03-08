@@ -3,6 +3,12 @@ body {
 	font-size: small;
 }
 
+hr {
+	height: 1px;
+	border: 0;
+	background-color: #04aa94;
+}
+
 input {
 	width: 40%;
 	border-radius: 10rem;
@@ -135,6 +141,11 @@ button {
 	text-align: left;
 }
 
+.pochListCard {
+	border-color: #f19e3e;
+	box-shadow: 5px 5px 5px #f19e3e;
+}
+
 .noFloat {
 	clear: left;
 }
@@ -152,6 +163,15 @@ button {
 
 .clicBookmark:hover {
 	color: #37a898;
+}
+
+.clicDeleteBook {
+	cursor: pointer;
+	color: #f19e3e;
+}
+
+.clicDeleteBook:hover {
+	color: #bb6707;
 }
 
 .bookTitle {
@@ -192,6 +212,8 @@ button {
 
 hr.hrCard {
 	background-color: #37a898;
-	height: 1px;
-	border: 0;
+}
+
+hr.hrCardPochList {
+	background-color: #f19e3e;
 }

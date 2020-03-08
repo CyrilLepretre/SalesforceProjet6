@@ -36,6 +36,10 @@ function init () {
 	elementDivPochList.id = 'pochList';
 	initPochList(elementDivPochList);
 	elementContentDiv.appendChild(elementDivPochList);
+	// Before refreshing the content of the pochlist, pochListFavorites map is initialized with the session storage content
+	initializeMapFromSession();
+	// Refresh the content of the pochlist with the content of pochListFavorites map
+	refreshPochListContent();
 }
 
 function initPochList (div) {
@@ -165,7 +169,7 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 		request.onreadystatechange = function() {
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				response = JSON.parse(this.responseText);
-				console.log(JSON.stringify(response));
+				//console.log(JSON.stringify(response));
 				// Clean searchResults before displaying results
 				if (!newSearch) {
 					const toClean = document.getElementById('searchResults');
@@ -235,7 +239,7 @@ function createHeaderBookCard(responseItem) {
 	bookmarkLink.innerHTML = '<i class="fas fa-bookmark" id="'+responseItem.id+'"></i>';
 	bookmarkLink.addEventListener('click', event => {
 		console.log('bookmark clicked : ' + event.target.id);
-		addToFavorites(event.target.id,responseItem);
+		addToFavorites(event.target.id, responseItem);
 	});
 	bookmarkCard.appendChild(bookmarkLink);
 
@@ -252,11 +256,11 @@ function createContentBookCard(responseItem) {
 	hrCard.classList.add('hrCard');
 	contentCard.appendChild(hrCard);
 	// Id
-	textSpan = (responseItem.id) ? 'Id : ' + responseItem.id : 'Information manquante';
+	textSpan = (responseItem.id) ? 'Id : ' + responseItem.id : 'Id : Information manquante';
 	contentCard.appendChild(createSpanCard('bookId', textSpan));
 	// Author
 	textSpan = (responseItem.volumeInfo.authors && responseItem.volumeInfo.authors[0]) ? 
-		'Auteur : ' + responseItem.volumeInfo.authors[0] : 'Information manquante';
+		'Auteur : ' + responseItem.volumeInfo.authors[0] : 'Auteur : Information manquante';
 	contentCard.appendChild(createSpanCard('bookAuthor', textSpan));
 	// Description
 	if (responseItem.volumeInfo.description){
@@ -299,13 +303,22 @@ function createBookCard(responseItem) {
 }
 
 function addToFavorites(idToAdd, itemToAdd) {
-	if (!pochListFavorites.get(idToAdd)) {
-		// The id doesn't exist in favorites list
+	//console.log(JSON.stringify(pochListFavorites));
+	if (!pochListFavorites) {
+		// pochList empty, just add the favorite
 		pochListFavorites.set(idToAdd,itemToAdd);
 		updateSessionStorage();
-		// TODO - UPDATE DE L'AFFICHAGE DE LA POCHLIST
 	} else {
-		alert('Vous ne pouvez ajouter deux fois le même livre');
+		// pochlist not empty, check before to add the favorite
+		console.log('pochlist dans addToFavorites ' + pochListFavorites);
+		if (!pochListFavorites.get(idToAdd)) {
+			// The id doesn't exist in favorites list
+			pochListFavorites.set(idToAdd,itemToAdd);
+			updateSessionStorage();
+			refreshPochListContent();
+		} else {
+			alert('Vous ne pouvez ajouter deux fois le même livre');
+		}
 	}
 }
 
@@ -313,5 +326,30 @@ function updateSessionStorage() {
 	// Serialize Map pochListFavorites
 	let pochListFavoriteString = JSON.stringify(Array.from(pochListFavorites.entries()));
 	sessionStorage.setItem('pochlib',pochListFavoriteString);
-	console.log('updateCLE : ' + pochListFavoriteString);
+	console.log('pochList updated String : ' + pochListFavoriteString);
+}
+
+function refreshPochListContent() {
+	const pochListContainer = document.getElementById('pochList');
+	const oldPochListContent = document.getElementById('pochListContent');
+
+	const newPochListContent = document.createElement('div');
+	newPochListContent.id = 'pochListContent';
+	if (pochListFavorites) {
+		for (let [favoriteId, favoriteContent] of pochListFavorites) {
+			//console.log('Favori ID pochlist : ' + favoriteId);
+			newPochListContent.appendChild(createBookCard(favoriteContent));
+		}
+	}
+	// Replace old content of poshlist by the new content
+	pochListContainer.replaceChild(newPochListContent, oldPochListContent);
+}
+
+function initializeMapFromSession() {
+	let sessionStorageValue = sessionStorage.getItem('pochlib');
+	if (sessionStorageValue) {
+		pochListFavorites = new Map(JSON.parse(sessionStorageValue));
+		console.log('pochList iniliazed String : ' + JSON.stringify(pochListFavorites));
+		//console.log(JSON.stringify(pochListFavorites));
+	}
 }

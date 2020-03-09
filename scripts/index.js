@@ -14,6 +14,7 @@ document.body.onload = init();
 			FUNCTIONS
 ************************************/
 function init () {
+	addFavIcon();
 	// replace title by the logo in a div
 	const elementPrincipalDiv = document.getElementById('myBooks');
 	const elementTitle = document.getElementsByClassName('title')[0];
@@ -41,6 +42,15 @@ function init () {
 	initializeMapFromSession();
 	// Refresh the content of the pochlist with the content of pochListFavorites map
 	refreshPochListContent();
+}
+
+function addFavIcon() {
+	const headContent = document.getElementsByTagName('head');
+	const linkFavIcon = document.createElement('link');
+	linkFavIcon.setAttribute('rel', 'shortcut icon');
+	linkFavIcon.setAttribute('href', '/img/logo.png');
+	headContent[0].appendChild(linkFavIcon);
+	//<link rel="shortcut icon" href="/img/logo.png"></link>
 }
 
 function initPochList (div) {

@@ -5,6 +5,7 @@ var searchResultsHtml;
 var response; // to store WS response
 var pochListFavorites = new Map();
 const maxDescriptionSize = 199; // +1 for string[0]
+const maxResults = 20; // maximum authorized is 40
 
 // Initialize global html structure
 document.body.onload = init();
@@ -178,32 +179,50 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 					const toClean = document.getElementById('searchResults');
 					toClean.innerHTML = '';
 				}
-				const searchResultDiv = document.getElementById('searchResults');
-				addTitleInDiv(searchResultDiv, 'Résultats de recherche', 'h2', 'h2');
-
-				const elementDivResults = document.createElement('div');
-				elementDivResults.id = 'searchResultsCards';
-				searchResultDiv.appendChild(elementDivResults);
-
 				// Check if there are results, otherwise display a message for no results found
 				if (response.items) {
+					let resultSummary;
+					if (response.totalItems > maxResults) {
+						resultSummary = maxResults + ' résultats affichés parmi ' + response.totalItems + ' trouvés,';
+						resultSummary += ' veuillez affiner votre recherche.';
+					} else {
+						resultSummary = response.totalItems + ' résultats trouvés.';
+					}
+					addResultsSummaryAndInitialize(resultSummary);
+					const elementDivResults = document.getElementById('searchResultsCards');
 					for (let i=0; i<response.items.length; i++) {
-					elementDivResults.appendChild(createBookCard(response.items[i]), false);
+						elementDivResults.appendChild(createBookCard(response.items[i]), false);
 					}
 				} else {
-					const noResult = document.createElement('span');
+					/*const noResult = document.createElement('span');
 					noResult.appendChild(document.createTextNode('Aucun résultat trouvé'));
-					elementDivResults.appendChild(noResult);
+					elementDivResults.appendChild(noResult);*/
+					addResultsSummaryAndInitialize('Aucun résultat trouvé');
 				}
 				newSearch = false;
 			}
 		};
 		//request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + bookTitle);
-		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=intitle:" + bookTitle + '+inauthor:' + bookAuthor);
+		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=intitle:" + bookTitle + '+inauthor:' + bookAuthor + '&maxResults=' + maxResults);
 		request.send();
 	} else {
 		//window.alert("Merci de saisir un titre et un auteur");
 	}
+}
+
+function addResultsSummaryAndInitialize(textSummary) {
+	const searchResultDiv = document.getElementById('searchResults');
+	addTitleInDiv(searchResultDiv, 'Résultats de recherche', 'h2', 'h2');
+
+	const summary = document.createElement('span');
+	summary.appendChild(document.createTextNode(textSummary));
+	searchResultDiv.appendChild(summary);
+
+	const elementDivResults = document.createElement('div');
+	elementDivResults.id = 'searchResultsCards';
+	elementDivResults.classList.add('cardsList');
+	searchResultDiv.appendChild(elementDivResults);
+	
 }
 
 function isValidInput(bookTitle, bookAuthor) {
@@ -355,6 +374,7 @@ function refreshPochListContent() {
 
 	const newPochListContent = document.createElement('div');
 	newPochListContent.id = 'pochListContent';
+	newPochListContent.classList.add('cardsList');
 	if (pochListFavorites) {
 		for (let [favoriteId, favoriteContent] of pochListFavorites) {
 			//console.log('Favori ID pochlist : ' + favoriteId);

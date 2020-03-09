@@ -178,8 +178,13 @@ button {
 	color: #a1ebe1;
 }
 
+.addedToFavorite {
+	color: #f19e3e;
+}
+
 .clicBookmark:hover {
-	color: #37a898;
+	/*color: #37a898;*/
+	color: #f19e3e;
 }
 
 .clicDeleteBook {
@@ -188,7 +193,7 @@ button {
 }
 
 .clicDeleteBook:hover {
-	color: #bb6707;
+	color: #bb0707;
 }
 
 .bookTitle {

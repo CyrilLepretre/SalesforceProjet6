@@ -170,8 +170,16 @@ addSearchFormBook = (elementDivNewBook) => {
 function cancelSearch() {
 	const searchResultDiv = document.getElementById('searchResults');
 	searchResultDiv.innerHTML = '';
-	document.getElementById('bookTitle').value = '';
-	document.getElementById('bookAuthor').value = '';
+	const bookTitleArea = document.getElementById('bookTitle');
+	bookTitleArea.value = '';
+	if (bookTitleArea.classList.contains('error')){
+		bookTitleArea.classList.remove('error');
+	}
+	const bookAuthorArea = document.getElementById('bookAuthor');
+	bookAuthorArea.value = '';
+	if (bookAuthorArea.classList.contains('error')){
+		bookAuthorArea.classList.remove('error');
+	}
 	bookTitle = '';
 	bookAuthor = '';
 	newSearch = true;

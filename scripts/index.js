@@ -1,5 +1,6 @@
 import {callGoogleBooksAPI, updateNewSearch} from './searchResults.js';
 import {refreshPochListContent, initializeMapFromSession} from './pochList.js';
+import {addAlertModal} from './alert.js';
 var bookTitle = '';
 var bookAuthor = '';
 
@@ -28,6 +29,8 @@ function init () {
 	elementSearchResults.id = 'searchResults';
 	elementContentDiv.replaceChild(elementSearchResults, elementH2PochList);
 	elementContentDiv.appendChild(initPochList());
+	// Add the alert modal, hidden
+	addAlertModal();
 	// Before refreshing the content of the pochlist, pochListFavorites map is initialized with the session storage content
 	initializeMapFromSession();
 	// Refresh the content of the pochlist with the content of pochListFavorites map

@@ -110,9 +110,14 @@ function addToFavorites(idToAdd, itemToAdd) {
 			// Change the color of bookmark icon
 			document.getElementById(idToAdd).classList.add('addedToFavorite');
 		} else {
-			alert('Vous ne pouvez ajouter deux fois le même livre');
+			displayAlertModal();
 		}
 	}
+}
+
+function displayAlertModal() {
+	const alertModal = document.getElementById('alert');
+	alertModal.style.display = "block";
 }
 
 function deleteFromFavorites(idToDelete) {

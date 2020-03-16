@@ -1,3 +1,6 @@
+$blue-dark : #04aa94;
+$blue-light : #b7e9e2;
+
 body {
 	font-family: 'Spartan', sans-serif;
 	font-size: small;
@@ -6,7 +9,7 @@ body {
 hr {
 	height: 1px;
 	border: 0;
-	background-color: #04aa94;
+	background-color: $blue-dark;
 }
 
 input {
@@ -15,12 +18,12 @@ input {
 	margin-bottom: 5px;
 	padding: 10px 20px;
 	outline: none;
-	border: 2px solid #b7e9e2;
+	border: 2px solid $blue-light;
 	font-family: inherit;
 }
 
 input:focus {
-	border: 2px solid #04aa94;
+	border: 2px solid $blue-dark;
 }
 
 input.error {

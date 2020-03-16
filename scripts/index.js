@@ -1,3 +1,4 @@
+require("../styles/style.scss");
 import {callGoogleBooksAPI, updateNewSearch} from './searchResults.js';
 import {refreshPochListContent, initializeMapFromSession} from './pochList.js';
 import {addAlertModal} from './alert.js';

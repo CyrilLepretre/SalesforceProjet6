@@ -35,7 +35,7 @@ function callGoogleBooksAPI (bookTitle, bookAuthor) {
 			}
 		};
 		request.open("GET", "https://www.googleapis.com/books/v1/volumes?q=intitle:'" 
-			+ bookTitle + '+inauthor:' + bookAuthor + '&maxResults=' + maxResults, true);
+			+ bookTitle + "'+inauthor:'" + bookAuthor + "'&maxResults=" + maxResults, true);
 		request.send();
 	}
 }

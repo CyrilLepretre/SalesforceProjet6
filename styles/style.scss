@@ -1,5 +1,14 @@
-$blue-dark : #04aa94;
-$blue-light : #b7e9e2;
+$blue-medium: #04aa94;
+$blue-dark: #037464;
+$blue-light: #b7e9e2;
+$red-error: #ff0000;
+$orange-light: #f3dd7b;
+$orange-medium: #f19e3e;
+$orange-dark: #ad5d02;
+$grey-light: #b8bebe;
+$white: #ffffff;
+$black: #000000;
+$black-transparancy: rgba(0,0,0,0.4);
 
 body {
 	font-family: 'Spartan', sans-serif;
@@ -9,7 +18,7 @@ body {
 hr {
 	height: 1px;
 	border: 0;
-	background-color: $blue-dark;
+	background-color: $blue-medium;
 }
 
 input {
@@ -20,14 +29,13 @@ input {
 	outline: none;
 	border: 2px solid $blue-light;
 	font-family: inherit;
-}
-
-input:focus {
-	border: 2px solid $blue-dark;
+	&:focus {
+		border: 2px solid $blue-medium;
+	}
 }
 
 input.error {
-	border: 2px solid red;
+	border: 2px solid $red-error;
 	transition-duration: 600ms;
 }
 
@@ -49,51 +57,15 @@ button {
 
 .h2 {
 	font-size: large;
-	color: #37a898;
+	color: $blue-medium;
 }
 
 .h2poch {
-	color: #f19e3e;
+	color: $orange-medium;
 }
 
 .inputFormTitle {
 	font-weight: bold;
-}
-
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	padding-top: 100px;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0,0,0,0.4); /* rgba for opacity */
-}
-
-.modal-alert {
-	background-color: #fefefe;
-	border-radius: 10px;
-	margin: auto;
-	padding: 10px;
-	border: 1px solid #aca7a7;
-	width: 60%;
-}
-
-.alertText {
-	padding: 20px;
-}
-
-#closeModal {
-	float: right;
-	color: #a3a7a6;
-}
-
-#closeModal:hover {
-	color: #1b1b1b;
-	cursor: pointer;
 }
 
 #myBooks {
@@ -108,55 +80,50 @@ button {
 }
 
 #buttonAddABook {
-	background-color: #a1ebe1;
-	color: #23ac99;
+	background-color: $blue-light;
+	color: $blue-dark;
 	transition-duration: 600ms;
-}
-
-#buttonAddABook:hover {
-	background-color: #23ac99;
-	color: white;
+	&:hover {
+		background-color: $blue-medium;
+		color: $white;
+	}
 }
 
 #buttonSearchBook {
 	width: 150px;
-	background-color: #a1ebe1;
-	border: 2px solid #a1ebe1;
-	color: #128b7b;
+	background-color: $blue-light;
+	border: 2px solid $blue-light;
+	color: $blue-dark;
 	transition-duration: 600ms;
-}
-
-#buttonSearchBook:hover {
-	background-color: #23ac99;
-	border: 2px solid #037464;
-	color: white;
-}
-
-#buttonSearchBook:focus {
-	background-color: #23ac99;
-	border: 2px solid #037464;
-	color: white;
+	&:hover {
+		background-color: $blue-medium;
+		border: 2px solid $blue-dark;
+		color: $white;
+	}
+	&:focus {
+		background-color: $blue-medium;
+		border: 2px solid $blue-dark;
+		color: $white;
+	}
 }
 
 #buttonCancelSearchBook {
 	margin-top: 5px;
 	width: 150px;
-	background-color: #f3dd7b;
-	border: 2px solid #f3dd7b;
-	color: #000000;
+	background-color: $orange-light;
+	border: 2px solid $orange-light;
+	color: $black;
 	transition-duration: 600ms;
-}
-
-#buttonCancelSearchBook:hover {
-	background-color: #e67c03;
-	border: 2px solid #995200;
-	color: white;
-}
-
-#buttonCancelSearchBook:focus {
-	background-color: #e67c03;
-	border: 2px solid #995200;
-	color: white;
+	&:hover {
+		background-color: $orange-medium;
+		border: 2px solid $orange-dark;
+		color: $white;
+	}
+	&:focus {
+		background-color: $orange-medium;
+		border: 2px solid $orange-dark;
+		color: $white;
+	}
 }
 
 .cardsList {
@@ -182,18 +149,18 @@ button {
 	padding: 10px 5px 10px 5px;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #37a898;
+	border-color: $blue-medium;
 	border-radius: 10px;
-	box-shadow: 5px 5px 5px #37a898;
-	background-color: white;
-	color: black;
+	box-shadow: 5px 5px 5px $blue-medium;
+	background-color: $white;
+	color: $black;
 	font-size: small;
 	text-align: left;
 }
 
 .pochListCard {
-	border-color: #f19e3e;
-	box-shadow: 5px 5px 5px #f19e3e;
+	border-color: $orange-medium;
+	box-shadow: 5px 5px 5px $orange-medium;
 }
 
 .noFloat {
@@ -208,24 +175,22 @@ button {
 
 .clicBookmark {
 	cursor: pointer;
-	color: #a1ebe1;
+	color: $blue-light;
+	&:hover {
+		color: $orange-medium;
+	}
 }
 
 .addedToFavorite {
-	color: #f19e3e;
-}
-
-.clicBookmark:hover {
-	color: #f19e3e;
+	color: $orange-medium;
 }
 
 .clicDeleteBook {
 	cursor: pointer;
-	color: #f19e3e;
-}
-
-.clicDeleteBook:hover {
-	color: #bb0707;
+	color: $orange-medium;
+	&:hover {
+		color: $red-error;
+	}
 }
 
 .bookTitle {
@@ -252,8 +217,8 @@ button {
 	max-height: 140px;
 	border-style: solid;
 	border-width: 1px;
-	border-color: #b8bebe;
-	box-shadow: 5px 5px 5px #b8bebe;
+	border-color: $grey-light;
+	box-shadow: 5px 5px 5px $grey-light;
 }
 
 .thumbnail {
@@ -265,9 +230,48 @@ button {
 }
 
 hr.hrCard {
-	background-color: #37a898;
+	background-color: $blue-medium;
 }
 
 hr.hrCardPochList {
-	background-color: #f19e3e;
+	background-color: $orange-medium;
+}
+
+/*********************************************
+					ALERTS
+*********************************************/
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	padding-top: 100px;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: $black-transparancy;
+}
+
+.modal-alert {
+	background-color: $white;
+	border-radius: 10px;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid $grey-light;
+	width: 60%;
+}
+
+.alertText {
+	padding: 20px;
+}
+
+#closeModal {
+	float: right;
+	color: $grey-light;
+	&:hover {
+		color: $blue-dark;
+		cursor: pointer;
+	}
 }

@@ -11,9 +11,10 @@ function addAlertModal() {
 	closeButton.innerHTML = '<i class="fas fa-times" id="closeModal"></i>';
 	closeButtonContainer.appendChild(closeButton);
 
-	const textAlert = document.createElement('p');
-	textAlert.appendChild(document.createTextNode('Vous ne pouvez ajouter deux fois le même livre'));
+	const textAlert = document.createElement('div');
 	textAlert.classList.add('alertText');
+	textAlert.innerHTML = '<i class="fas fa-info-circle fa-2x"></i>&nbsp;&nbsp;Vous ne pouvez ajouter deux fois le même livre';
+
 	modalContent.appendChild(closeButtonContainer);
 	modalContent.appendChild(textAlert);
 	modalContent.classList.add('modal-alert');

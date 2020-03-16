@@ -118,17 +118,20 @@ button {
 #buttonSearchBook {
 	width: 150px;
 	background-color: #a1ebe1;
+	border: 2px solid #a1ebe1;
 	color: #128b7b;
 	transition-duration: 600ms;
 }
 
 #buttonSearchBook:hover {
 	background-color: #23ac99;
+	border: 2px solid #037464;
 	color: white;
 }
 
 #buttonSearchBook:focus {
 	background-color: #23ac99;
+	border: 2px solid #037464;
 	color: white;
 }
 
@@ -136,17 +139,20 @@ button {
 	margin-top: 5px;
 	width: 150px;
 	background-color: #f3dd7b;
+	border: 2px solid #f3dd7b;
 	color: #000000;
 	transition-duration: 600ms;
 }
 
 #buttonCancelSearchBook:hover {
 	background-color: #e67c03;
+	border: 2px solid #995200;
 	color: white;
 }
 
 #buttonCancelSearchBook:focus {
 	background-color: #e67c03;
+	border: 2px solid #995200;
 	color: white;
 }
 
@@ -223,6 +229,7 @@ button {
 	font-weight: bold;
 	width: 90%;
 	float:left;
+	margin-bottom: 5px;
 }
 
 .bookId {

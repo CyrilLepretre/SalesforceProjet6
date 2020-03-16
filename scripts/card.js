@@ -36,7 +36,7 @@ function createHeaderBookCard(responseItem, pochList) {
 	const bookmarkLink = document.createElement('a');
 	if (pochList) {
 		bookmarkLink.classList.add("clicDeleteBook");
-		bookmarkLink.innerHTML = '<i class="fas fa-times" id="'+responseItem.id+'"></i>';
+		bookmarkLink.innerHTML = '<i class="fas fa-times fa-lg" id="'+responseItem.id+'"></i>';
 		bookmarkLink.addEventListener('click', event => {
 			deleteFromFavorites(event.target.id);
 		});
@@ -44,9 +44,9 @@ function createHeaderBookCard(responseItem, pochList) {
 		bookmarkLink.classList.add("clicBookmark");
 		// change color if already added to favorites
 		if (pochListFavorites.get(responseItem.id)) {
-			bookmarkLink.innerHTML = '<i class="fas fa-bookmark addedToFavorite" id="'+responseItem.id+'"></i>';
+			bookmarkLink.innerHTML = '<i class="fas fa-bookmark fa-lg addedToFavorite" id="'+responseItem.id+'"></i>';
 		} else {
-			bookmarkLink.innerHTML = '<i class="fas fa-bookmark" id="'+responseItem.id+'"></i>';
+			bookmarkLink.innerHTML = '<i class="fas fa-bookmark fa-lg" id="'+responseItem.id+'"></i>';
 		}
 		bookmarkLink.addEventListener('click', event => {
 			addToFavorites(event.target.id, responseItem);

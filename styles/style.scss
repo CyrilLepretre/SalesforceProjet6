@@ -1,0 +1,277 @@
+$blue-medium: #04aa94;
+$blue-dark: #037464;
+$blue-light: #b7e9e2;
+$red-error: #ff0000;
+$orange-light: #f3dd7b;
+$orange-medium: #f19e3e;
+$orange-dark: #ad5d02;
+$grey-light: #b8bebe;
+$white: #ffffff;
+$black: #000000;
+$black-transparancy: rgba(0,0,0,0.4);
+
+body {
+	font-family: 'Spartan', sans-serif;
+	font-size: small;
+}
+
+hr {
+	height: 1px;
+	border: 0;
+	background-color: $blue-medium;
+}
+
+input {
+	width: 40%;
+	border-radius: 10rem;
+	margin-bottom: 5px;
+	padding: 10px 20px;
+	outline: none;
+	border: 2px solid $blue-light;
+	font-family: inherit;
+	&:focus {
+		border: 2px solid $blue-medium;
+	}
+}
+
+input.error {
+	border: 2px solid $red-error;
+	transition-duration: 600ms;
+}
+
+span {
+	display: block;
+	margin-bottom: 10px;
+}
+
+button {
+	cursor: pointer;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 10rem;
+	border: 0px;
+	padding: 10px 20px;
+	font-family: inherit;
+	outline: none;
+}
+
+.h2 {
+	font-size: large;
+	color: $blue-medium;
+}
+
+.h2poch {
+	color: $orange-medium;
+}
+
+.inputFormTitle {
+	font-weight: bold;
+}
+
+#myBooks {
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+#logo {
+	max-height:160px;
+	overflow: hidden;
+}
+
+#buttonAddABook {
+	background-color: $blue-light;
+	color: $blue-dark;
+	transition-duration: 600ms;
+	&:hover {
+		background-color: $blue-medium;
+		color: $white;
+	}
+}
+
+#buttonSearchBook {
+	width: 150px;
+	background-color: $blue-light;
+	border: 2px solid $blue-light;
+	color: $blue-dark;
+	transition-duration: 600ms;
+	&:hover {
+		background-color: $blue-medium;
+		border: 2px solid $blue-dark;
+		color: $white;
+	}
+	&:focus {
+		background-color: $blue-medium;
+		border: 2px solid $blue-dark;
+		color: $white;
+	}
+}
+
+#buttonCancelSearchBook {
+	margin-top: 5px;
+	width: 150px;
+	background-color: $orange-light;
+	border: 2px solid $orange-light;
+	color: $black;
+	transition-duration: 600ms;
+	&:hover {
+		background-color: $orange-medium;
+		border: 2px solid $orange-dark;
+		color: $white;
+	}
+	&:focus {
+		background-color: $orange-medium;
+		border: 2px solid $orange-dark;
+		color: $white;
+	}
+}
+
+.cardsList {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+	justify-content: center;
+}
+
+.logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+
+.bookCard {
+	position: relative;
+	width: 330px;
+	height: 350px;
+	margin: 10px 8px 10px 8px;
+	padding: 10px 5px 10px 5px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: $blue-medium;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px $blue-medium;
+	background-color: $white;
+	color: $black;
+	font-size: small;
+	text-align: left;
+}
+
+.pochListCard {
+	border-color: $orange-medium;
+	box-shadow: 5px 5px 5px $orange-medium;
+}
+
+.noFloat {
+	clear: left;
+}
+
+.bookmark {
+	width: 10%;
+	float:left;
+	text-align: right;
+}
+
+.clicBookmark {
+	cursor: pointer;
+	color: $blue-light;
+	&:hover {
+		color: $orange-medium;
+	}
+}
+
+.addedToFavorite {
+	color: $orange-medium;
+}
+
+.clicDeleteBook {
+	cursor: pointer;
+	color: $orange-medium;
+	&:hover {
+		color: $red-error;
+	}
+}
+
+.bookTitle {
+	font-weight: bold;
+	width: 90%;
+	float:left;
+	margin-bottom: 5px;
+}
+
+.bookId {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.bookAuthor {
+	font-weight: normal;
+}
+
+.bookDescription {
+	font-weight: normal;
+}
+
+.thumbnailImg {
+	max-height: 140px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: $grey-light;
+	box-shadow: 5px 5px 5px $grey-light;
+}
+
+.thumbnail {
+	position: absolute;
+	text-align: center;
+	bottom: 20px;
+	left : 1%;
+	right : 1%;
+}
+
+hr.hrCard {
+	background-color: $blue-medium;
+}
+
+hr.hrCardPochList {
+	background-color: $orange-medium;
+}
+
+/*********************************************
+					ALERTS
+*********************************************/
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	padding-top: 100px;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: $black-transparancy;
+}
+
+.modal-alert {
+	background-color: $white;
+	border-radius: 10px;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid $grey-light;
+	width: 60%;
+}
+
+.alertText {
+	padding: 20px;
+}
+
+#closeModal {
+	float: right;
+	color: $grey-light;
+	&:hover {
+		color: $blue-dark;
+		cursor: pointer;
+	}
+}

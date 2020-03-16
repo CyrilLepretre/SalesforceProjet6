@@ -95,11 +95,13 @@ function createButton (buttonId, innerToAdd, div) {
 			break;
 		case 'buttonSearchBook' :
 			elementButton.addEventListener('click', function(){
+				elementButton.blur();
 				callGoogleBooksAPI(bookTitle, bookAuthor);
 			});
 			break;
 		case 'buttonCancelSearchBook' :
 			elementButton.addEventListener('click', function(){
+				elementButton.blur();
 				cancelSearch();
 			});
 			break;
